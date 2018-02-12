@@ -8,36 +8,39 @@ import ast
 from numpy.linalg import svd, qr, norm
 import glob
 
+
 def slerp(p0, p1, t):
-    omega = arccos(dot(p0/norm(p0), p1/norm(p1)))
+    omega = arccos(dot(p0 / norm(p0), p1 / norm(p1)))
     so = sin(omega)
-    #print "Debug", p0, p1, omega, so,  sin((1.0-t)*omega)/so,  sin((1.0-t)*omega)/so *np.array(p0)
-    return sin((1.0-t)*omega) / so * np.array(p0) + sin(t*omega)/so * np.array(p1)
+    # print "Debug", p0, p1, omega, so,  sin((1.0-t)*omega)/so,  sin((1.0-t)*omega)/so *np.array(p0)
+    return sin((1.0 - t) * omega) / so * np.array(p0) + sin(t * omega) / so * np.array(p1)
+
 
 def lerp(p0, p1, t):
-    return np.add(p0, t * np.subtract(p1,p0))
+    return np.add(p0, t * np.subtract(p1, p0))
+
 
 def degree(A):
     return np.zeros()
 
 
-def construct_feed_dict(lr,dropout, k, n, d, decay, placeholders):
+def construct_feed_dict(lr, dropout, k, n, d, decay, placeholders):
     # construct feed dictionary
     feed_dict = dict()
-
 
     #feed_dict.update({placeholders['features']: features})
     #feed_dict.update({placeholders['adj']: adj})
     feed_dict.update({placeholders['lr']: lr})
     feed_dict.update({placeholders['dropout']: dropout})
     feed_dict.update({placeholders['decay']: decay})
-    #feed_dict.update({placeholders['input']:np.zeros([k,n,d])})
+    # feed_dict.update({placeholders['input']:np.zeros([k,n,d])})
     return feed_dict
 
 
 def get_shape(tensor):
     '''return the shape of tensor as list'''
     return tensor.get_shape().as_list()
+
 
 def basis(adj, atol=1e-13, rtol=0):
     """Estimate the basis of a matrix.
@@ -79,28 +82,35 @@ def basis(adj, atol=1e-13, rtol=0):
     q, r = qr(A)
     return q[:rank]
 
+
 def print_vars(string):
     '''print variables in collection named string'''
-    print("Collection name %s"%string)
-    print("    "+"\n    ".join(["{} : {}".format(v.name, get_shape(v)) for v in tf.get_collection(string)]))
+    print("Collection name %s" % string)
+    print("    " + "\n    ".join(["{} : {}".format(v.name, get_shape(v))
+                                  for v in tf.get_collection(string)]))
+
 
 def get_basis(mat):
-    basis = np.zeros(1,1)
+    basis = np.zeros(1, 1)
     return basis
+
 
 def create_dir(dirname):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
+
 def get_edges(adj):
     G.edges()
     return
+
 
 def pickle_load(path):
     '''Load the picke data from path'''
     with open(path, 'rb') as f:
         loaded_pickle = pickle.load(f)
     return loaded_pickle
+
 
 def load_embeddings(fname):
     embd = []
@@ -115,11 +125,11 @@ def load_data(filename, num=0):
     adjlist = []
     featurelist = []
     edgelist = []
-        
-    for fname in sorted(glob.glob(path+"*")):
+
+    for fname in sorted(glob.glob(path + "*")):
         f = open(fname, 'r')
         try:
-            G=nx.read_edgelist(f, nodetype=int)
+            G = nx.read_edgelist(f, nodetype=int)
         except:
             continue
         f.close()
@@ -127,11 +137,11 @@ def load_data(filename, num=0):
         for i in range(n):
             if i not in G.nodes():
                 G.add_node(i)
-        degreemat = np.zeros((n,1), dtype=np.float)
+        degreemat = np.zeros((n, 1), dtype=np.float)
 
         edges = G.edges()
         for u in G.nodes():
-            degreemat[int(u)][0] = (G.degree(u)*1.0)/(n-1)
+            degreemat[int(u)][0] = (G.degree(u) * 1.0) / (n - 1)
             edgelist.append(G.edges())
         try:
             adjlist.append(np.array(nx.adjacency_matrix(G).todense()))
