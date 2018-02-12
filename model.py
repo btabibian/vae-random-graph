@@ -395,7 +395,7 @@ class VAEG(VAEGConfig):
         #inverse_sigma_2 = tf.matrix_diag(np.true_divide(np.ones(np.shape(debug_sigma_2)), debug_sigma_2))
 
         term_2 = []
-        print "DEBUG2", len(inverse_sigma_2)
+        print("DEBUG2", len(inverse_sigma_2))
         for i in range(n):
             term_2.append(np.trace(np.matmul(inverse_sigma_2[i], sigma_1[i])))
         # Difference between the mean
