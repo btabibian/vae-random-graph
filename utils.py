@@ -127,7 +127,7 @@ def load_data(filename, num=0):
     edgelist = []
 
     for fname in sorted(glob.glob(path + "*")):
-        f = open(fname, 'r')
+        f = open(fname, 'rb')
         try:
             G = nx.read_edgelist(f, nodetype=int)
         except:

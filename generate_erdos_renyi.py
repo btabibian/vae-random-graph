@@ -1,7 +1,7 @@
 import sys
 import argparse
 import networkx as nx
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 #from networkx.generators.tree import random_tree
 from random import choice
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         A = nx.adjacency_matrix(G)
         fh = open(params.file + str(i + 5) + ".edgelist", "wb")
         nx.write_edgelist(G, fh)
-        fh.write("\n")
+        fh.write("\n".encode())
     # fh.close()
     #fh = open("test.edgelist", "rb")
     #lines = fh.read().split('\n\n')

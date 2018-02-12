@@ -235,7 +235,7 @@ class VAEG(VAEGConfig):
                 feed_dict.update({self.input_data: np.zeros([self.k, self.n, self.d])})
                 feed_dict.update({self.eps: eps})
                 grad_vals = self.sess.run([g[0] for g in self.grad], feed_dict=feed_dict)
-                for j in xrange(len(self.grad_placeholder)):
+                for j in range(len(self.grad_placeholder)):
                     feed_dict.update({self.grad_placeholder[j][0]: grad_vals[j]})
                 input_, train_loss, _, probdict, cx = self.sess.run(
                     [self.input_data, self.cost, self.apply_transform_op, self.prob, self.c_x], feed_dict=feed_dict)
@@ -560,7 +560,7 @@ class VAEG(VAEGConfig):
                 count += 1
 
     def getcandidate(self, num, n, p, prob, list_edges):
-        print "Inside gencanidate"
+        print("Inside gencanidate")
         adj = np.zeros([n, n])
         candidate_edges = [list_edges[i]
                            for i in np.random.choice(range(len(list_edges)), [1], p=p)]
@@ -588,7 +588,7 @@ class VAEG(VAEGConfig):
                     problist.append(probnew[i][j])
             p = np.array(problist)
             p /= p.sum()
-            print "Debug p", p
+            print("Debug p", p)
             candidate_edges.extend([list_edges[i]
                                     for i in np.random.choice(range(len(list_edges)), [1], p=p)])
 
